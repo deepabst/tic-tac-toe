@@ -7,9 +7,15 @@ const game = {
     turnNumber: 0,
     winner: null,
     gameOver: false,
-    refreshScreen: function(){
+    resetGame: function(){
         // hide all images
-         $('img').attr('hidden', true);
+        $('img').hide();
+         // reset all the data
+         this.turnNumber = 0;
+         this.winner = null;
+         this.gameOver = false;
+         this.board = [null, null, null, null, null, null, null, null, null];
+         // TODO - set 1st player
          console.log(`refresh screen ran`);
      },
      checkForWinner: function(player){
@@ -68,10 +74,12 @@ const game = {
             && this.board[6] === player){
             game.winner = player;
             console.log(`player ${player} won with a / forwardslash diagonal victory!`)
-        } else if(game.turnNumber === 9 && game.winner === null ){
+        } 
+        if(game.turnNumber === 9 && game.winner === null ){
             game.winner = `draw`;
             console.log(`it's a draw!`);
         }
+        return this.winner;
      },
 }
 
@@ -86,6 +94,7 @@ $('.row>div').on('click', function(e){
         console.log(`square ${square} is set to: ${game.board[square]}`);
         // is that square free?
         if(game.board[square] === null){
+            game.turnNumber++;
             // whose turn is it?
             let player = ''; 
             if(game.is1UPturn){
@@ -97,10 +106,9 @@ $('.row>div').on('click', function(e){
             game.board[square] = player;
             console.log(`game square ${square} claimed by player ${player}`)
             // check if current player won
-            game.checkForWinner(player)
+            game.checkForWinner(player);
             // end turn - begin other player's turn
             game.is1UPturn = !game.is1UPturn;
-            game.turnNumber++;
             console.log(`this.is1UPturn = ${game.is1UPturn}`);
         } else {
             // square has been claimed doesn't end turn 
@@ -114,6 +122,7 @@ $('.row>div').on('click', function(e){
 
 // update the UI
 const updateScreen = function(){
+    $('#message').html(`Turn: ${game.turnNumber}`);
     for(let i = 0; i<game.board.length;i++){
         if(game.board[i]=== '1UP'){
             // player one owns the square
@@ -125,6 +134,97 @@ const updateScreen = function(){
     }
     if(game.winner !== null){
         // alert(`the winner is ${game.winner}`);
-        game.refreshScreen();
+        if(game.winner === 'draw'){
+            showDrawResult();
+        } else if(game.winner === '1UP'){
+            show1UPwins();
+        } else if(game.winner === '2UP'){
+            show2UPWinMessage();
+        }
     }
+}      
+
+
+const show2UPWinMessage = function(){
+    // pop the player 2 wins message
+    $('#message').html(`Player 2 wins - click to play again`);
+    $('#2UPWin').show().animate(
+        {
+            width: '40%',
+            height: '40%',
+            top: '30%',
+            left: '30%',
+            position: 'fixed'
+        }, 2000
+    );
+    // reset the game on next click
+    $('#2UPWin').on('click', function(){
+        $(this).css({
+            width: '10%',
+            height: '10%',
+            position: 'fixed',
+            top: '45%',
+            left: '45%',
+            display: 'none'
+        });
+        game.resetGame();
+    });     
 }
+
+const show1UPwins = function(){
+    // pop the player 1 one wins message 
+    $('#message').html(`Player 1 wins - click to play again`);
+    $('#1UPWin').show().animate(
+        {
+            width: '40%',
+            height: '40%',
+            top: '30%',
+            left: '30%',
+            position: 'fixed'
+        }, 2000
+    );
+    // reset the game on next click
+    $('#1UPWin').on('click', function(){
+        $(this).css({
+            width: '10%',
+            height: '10%',
+            position: 'fixed',
+            top: '45%',
+            left: '45%',
+            display: 'none'
+        });
+        game.resetGame();
+    });     
+}
+
+// animate the draw message and set a click handler to reset game 
+const showDrawResult =  function(){
+    // pop the draw message 
+    $('#message').html(`Its a draw - click to play again`);
+    $('#draw').show().animate(
+        {
+            width: '40%',
+            height: '40%',
+            top: '30%',
+            left: '30%',
+            position: 'fixed'
+        }, 2000
+    );
+    // reset the game on next click
+    $('#draw').on('click', function(){
+        $(this).css({
+            width: '10%',
+            height: '10%',
+            position: 'fixed',
+            top: '45%',
+            left: '45%',
+            display: 'none'
+        });
+        game.resetGame();
+    });     
+}
+
+// test feature button
+$('#testBtn').on('click', function(){
+    console.log('test feature')
+});
