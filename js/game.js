@@ -79,6 +79,9 @@ const game = {
             game.winner = `draw`;
             console.log(`it's a draw!`);
         }
+        if(this.winner !== null){
+            this.gameOver = true;
+        }
         return this.winner;
      },
 }
@@ -118,6 +121,7 @@ $('.row>div').on('click', function(e){
         updateScreen();
         // update screen
     } // if() game still going?
+    console.log(`click after the game is over`);
 }); 
 
 // update the UI
