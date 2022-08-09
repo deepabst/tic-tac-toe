@@ -120,8 +120,9 @@ $('.row>div').on('click', function(e){
         }
         updateScreen();
         // update screen
-    } // if() game still going?
-    console.log(`click after the game is over`);
+    }else{
+        console.log(`click after the game is over`);
+    }
 }); 
 
 // update the UI
@@ -130,10 +131,10 @@ const updateScreen = function(){
     for(let i = 0; i<game.board.length;i++){
         if(game.board[i]=== '1UP'){
             // player one owns the square
-            $(`#${i}>img[src='/img/1.png']`).show();
+            $(`#${i}>img[src='img/1.png']`).show();
         } else if (game.board[i]=== '2UP'){
             // player two owns this square
-            $(`#${i}>img[src='/img/2.png']`).show();
+            $(`#${i}>img[src='img/2.png']`).show();
         }
     }
     if(game.winner !== null){
