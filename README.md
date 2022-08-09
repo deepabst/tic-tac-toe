@@ -2,6 +2,10 @@
 ---
 *The classic game to pass the time. Take turn marking boxes until one player has 3 in a row or all boxes are marked. (e.g. a draw)*
 
+![screenshot of the game on iPhone](img/iphone.png)
+![screenshot of the game on iPhone](img/iphone1.png)
+![screenshot of the game on iPhone](img/iphone2.png)
+
 ## Features
 - 2 player turn based action!
 - fun for the whole family (in groups of two)
