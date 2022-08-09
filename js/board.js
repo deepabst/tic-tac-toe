@@ -63,6 +63,11 @@ const showGameResult = function(winner){
             position: 'absolute'
         }, 2000
     );
+
+    if(winner !== 'draw'){
+        $('#strike').addClass(game.strike);
+        $('#strike').show();
+    }
 };
 
 // press any key to start a new game
@@ -84,13 +89,24 @@ $('body').on('keypress', function(){
             left: '45%',
             display: 'none'
         });
-        game.newGame();
+        // game.newGame();
+        resetUI();
     }
 });
+
+const resetUI = function(){
+    // hide all images
+    $('img').hide();
+    // hide strike out div
+    $('#strike').hide().removeClass();
+    // set initial message
+    $('#message').html(`${game.getActivePlayer()} is first, choose a square`);
+    game.newGame();
+}
 
 // // test feature button
 // $('#testBtn').on('click', function(){
 //     console.log('test feature')
 // });
 
-game.newGame();
+resetUI();
