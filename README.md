@@ -24,7 +24,7 @@ More spaghetti than you can shave a parmesan at.
 The backgrounds of the winner/draw splash animations are a little dodgy.
 
 ## Link to game
-Play here - [title](https://www.example.com)
+[Play Online Now](https://deepabst.github.io/tic-tac-toe/)
 
 ## Project Lead
 Dee Pabst
