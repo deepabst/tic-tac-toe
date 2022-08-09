@@ -1,24 +1,26 @@
 console.log(`%cLet me tell thee of the days of high adventure`, 'Font-Family: fantasy; font-size: 14px;');
 
-// object to hold game data
+// game data object
 const game = {
     board: [null, null, null, null, null, null, null, null, null],
     is1UPturn: true,
     turnNumber: 0,
     winner: null,
     gameOver: false,
-    resetGame: function(){
+    newGame: function(){
+        console.log(`resetting the game ...`);
         // hide all images
         $('img').hide();
-         // reset all the data
+         // reset data
          this.turnNumber = 0;
          this.winner = null;
          this.gameOver = false;
          this.board = [null, null, null, null, null, null, null, null, null];
-         // TODO - set 1st player
-         console.log(`refresh screen ran`);
+         // set initial message
+         $('#message').html(`${this.getActivePlayer()} is first, choose a square`);
      },
-     checkForWinner: function(player){
+     checkForWinner: function(){
+        let player = this.getActivePlayer();
         // row one victory
         if(this.board[0] === player 
             && this.board[1] === player 
@@ -84,42 +86,45 @@ const game = {
         }
         return this.winner;
      },
+     getActivePlayer: function(){
+        let player; 
+        if(game.is1UPturn){
+            player = '1UP';
+         } else {
+            player = '2UP';
+         }
+         return player;
+     },
+     setActivePlayer: function(){
+        game.is1UPturn = !game.is1UPturn;
+     }
 }
 
 // UI code
 
 // click handler for every square
 $('.row>div').on('click', function(e){
-    // check if game is still going
+    // is the game is still going?
     if(game.gameOver === false){
         // which square was clicked?
         square = $(this)[0].id;
         console.log(`square ${square} is set to: ${game.board[square]}`);
         // is that square free?
         if(game.board[square] === null){
-            game.turnNumber++;
-            // whose turn is it?
-            let player = ''; 
-            if(game.is1UPturn){
-                player = '1UP';
-             } else {
-                player = '2UP';
-             }
+            game.turnNumber++;            
             // update the game array
-            game.board[square] = player;
-            console.log(`game square ${square} claimed by player ${player}`)
+            game.board[square] = game.getActivePlayer();
+            console.log(`game square ${square} claimed by player ${game.board[square]}`)
             // check if current player won
-            game.checkForWinner(player);
+            game.checkForWinner();
             // end turn - begin other player's turn
-            game.is1UPturn = !game.is1UPturn;
-            console.log(`this.is1UPturn = ${game.is1UPturn}`);
+            game.setActivePlayer();
+            console.log(`it's ${game.getActivePlayer()}'s turn`);
         } else {
-            // square has been claimed doesn't end turn 
-            // do nothing, play on
+            // square has been claimed do nothing, play on
             console.log(`this square belongs to ${game.board[square]}`);
         }
         updateScreen();
-        // update screen
     }else{
         console.log(`click after the game is over`);
     }
@@ -127,7 +132,7 @@ $('.row>div').on('click', function(e){
 
 // update the UI
 const updateScreen = function(){
-    $('#message').html(`Turn: ${game.turnNumber}`);
+    $('#message').html(`Your turn, ${game.getActivePlayer()} choose a square`);
     for(let i = 0; i<game.board.length;i++){
         if(game.board[i]=== '1UP'){
             // player one owns the square
@@ -138,7 +143,6 @@ const updateScreen = function(){
         }
     }
     if(game.winner !== null){
-        // alert(`the winner is ${game.winner}`);
         if(game.winner === 'draw'){
             showDrawResult();
         } else if(game.winner === '1UP'){
@@ -149,10 +153,9 @@ const updateScreen = function(){
     }
 }      
 
-
 const show2UPWinMessage = function(){
     // pop the player 2 wins message
-    $('#message').html(`Player 2 wins - click to play again`);
+    $('#message').html(`Player 2 wins - press any key to play again`);
     $('#2UPWin').show().animate(
         {
             width: '40%',
@@ -162,23 +165,11 @@ const show2UPWinMessage = function(){
             position: 'fixed'
         }, 2000
     );
-    // reset the game on next click
-    $('#2UPWin').on('click', function(){
-        $(this).css({
-            width: '10%',
-            height: '10%',
-            position: 'fixed',
-            top: '45%',
-            left: '45%',
-            display: 'none'
-        });
-        game.resetGame();
-    });     
 }
 
 const show1UPwins = function(){
     // pop the player 1 one wins message 
-    $('#message').html(`Player 1 wins - click to play again`);
+    $('#message').html(`Player 1 wins - press any key to play again`);
     $('#1UPWin').show().animate(
         {
             width: '40%',
@@ -188,24 +179,12 @@ const show1UPwins = function(){
             position: 'fixed'
         }, 2000
     );
-    // reset the game on next click
-    $('#1UPWin').on('click', function(){
-        $(this).css({
-            width: '10%',
-            height: '10%',
-            position: 'fixed',
-            top: '45%',
-            left: '45%',
-            display: 'none'
-        });
-        game.resetGame();
-    });     
 }
 
-// animate the draw message and set a click handler to reset game 
+// animate the draw message
 const showDrawResult =  function(){
     // pop the draw message 
-    $('#message').html(`Its a draw - click to play again`);
+    $('#message').html(`Its a draw - press any key to play again`);
     $('#draw').show().animate(
         {
             width: '40%',
@@ -215,9 +194,20 @@ const showDrawResult =  function(){
             position: 'fixed'
         }, 2000
     );
-    // reset the game on next click
-    $('#draw').on('click', function(){
-        $(this).css({
+}
+
+// press any key to start a new game
+$('body').on('keypress', function(){
+    if(game.gameOver){
+        let $resultMessage;
+        if(game.winner === 'draw'){
+            $resultMessage = $('#draw');
+        } else if(game.winner === '1UP'){
+            $resultMessage = $('#1UPWin');
+        } else if(game.winner === '2UP'){
+            $resultMessage = $('#2UPWin');
+        }
+        $resultMessage.css({
             width: '10%',
             height: '10%',
             position: 'fixed',
@@ -225,11 +215,13 @@ const showDrawResult =  function(){
             left: '45%',
             display: 'none'
         });
-        game.resetGame();
-    });     
-}
+        game.newGame();
+    }
+});
 
 // test feature button
 $('#testBtn').on('click', function(){
     console.log('test feature')
 });
+
+game.newGame();
