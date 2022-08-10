@@ -31,8 +31,8 @@ const game = {
         else if(this.board[3] === player
             && this.board[4] === player
             && this.board[5] === player){
-                game.winner = player;
-                game.strike = 'rowTwoVictory'
+            game.winner = player;
+            game.strike = 'rowTwoVictory'
         }
             // row three victory
             else if(this.board[6] === player
@@ -104,8 +104,14 @@ const game = {
      recordWin: function(){
         if(game.is1UPturn){
             this.winCounter[0]++;
+            if('localStorage' in window){
+                localStorage.setItem('winCounter', JSON.stringify(this.winCounter));
+            }
         }else{
             this.winCounter[1]++;
+            if('localStorage' in window){
+                localStorage.setItem('winCounter', JSON.stringify(this.winCounter));
+            }
         }
      }
 }

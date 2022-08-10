@@ -94,24 +94,30 @@ $('body').on('keypress', function(){
             left: '45%',
             display: 'none'
         });
-        // game.newGame();
         resetUI();
     }
 });
 
 const resetUI = function(){
+    //check localStorage (for previous wins)
+    if('localStorage' in window){
+        let winCounter = localStorage.getItem('winCounter');
+        // check if winCounter is not null
+        if(winCounter !== null){
+            // update winCounter
+            game.winCounter = JSON.parse(winCounter);
+        }
+    }
+    // update wins on the leaderboard
+    $('#1UPWinCounter').html(game.winCounter[0]);
+    $('#2UPWinCounter').html(game.winCounter[1]);
     // hide all images
     $('.board img').hide();
     // hide strike out div
     $('#strike').hide().removeClass();
     // set initial message
     $('#message').html(`${game.getActivePlayer()} is first, choose a square`);
+
     game.newGame();
 }
-
-// // test feature button
-// $('#testBtn').on('click', function(){
-//     console.log('test feature')
-// });
-
 resetUI();
