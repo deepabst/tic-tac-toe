@@ -8,6 +8,7 @@ const game = {
     winner: null,
     gameOver: false,
     strike: null,
+    winCounter: [0,0],
     newGame: function(){
         console.log(`resetting the game ...`);
          // reset data
@@ -81,6 +82,11 @@ const game = {
         if(this.winner !== null){
             this.gameOver = true;
         }
+        // add +1 to the win total
+        if(this.winner !== null && this.winner !== 'draw'){
+            this.recordWin();
+        }
+
         return this.winner;
      },
      getActivePlayer: function(){
@@ -94,5 +100,12 @@ const game = {
      },
      setActivePlayer: function(){
         game.is1UPturn = !game.is1UPturn;
+     },
+     recordWin: function(){
+        if(game.is1UPturn){
+            this.winCounter[0]++;
+        }else{
+            this.winCounter[1]++;
+        }
      }
 }

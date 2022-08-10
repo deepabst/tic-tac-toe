@@ -141,8 +141,25 @@ img {
 
 #strike {
     position: absolute;
-    /* top: 0; */
-    /* left: 0; */
     height: 100%;
     width: 100%;
+}
+
+.leaderboard{
+    text-align: center;
+}
+
+.rung div{
+    display: inline-block;
+    height: 5vh;
+    font-size: 2em;
+    width: 10%;
+}
+
+.rung img {
+    background-color: aliceblue;
+    height: 80%;
+    width: auto;
+    box-sizing: border-box;
+    padding: 2px;
 }

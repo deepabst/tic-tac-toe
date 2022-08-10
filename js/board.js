@@ -28,6 +28,7 @@ $('.row>div').on('click', function(e){
 // update the UI
 const updateScreen = function(){
     $('#message').html(`Your turn, ${game.getActivePlayer()} choose a square`);
+    // layout the game board
     for(let i = 0; i<game.board.length;i++){
         if(game.board[i]=== '1UP'){
             // player one owns the square
@@ -37,9 +38,13 @@ const updateScreen = function(){
             $(`#${i}>img[src='img/2.png']`).show();
         }
     }
+    // show the result splash screen
     if(game.winner !== null){
         showGameResult(game.winner);
     }
+    // update wins on the leaderboard
+    $('#1UPWinCounter').html(game.winCounter[0]);
+    $('#2UPWinCounter').html(game.winCounter[1]);
 }      
 
 const showGameResult = function(winner){
@@ -96,7 +101,7 @@ $('body').on('keypress', function(){
 
 const resetUI = function(){
     // hide all images
-    $('img').hide();
+    $('.board img').hide();
     // hide strike out div
     $('#strike').hide().removeClass();
     // set initial message
