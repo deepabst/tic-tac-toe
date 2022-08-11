@@ -5,11 +5,10 @@ body {
     background-color: black;
     color: greenyellow;
     font-family: 'Special Elite', cursive;
+    text-align: center;
 }
 
 h1 {
-    margin: 0 auto;
-    text-align: center;
     font-family: 'Train One', cursive;
 }
 
@@ -22,28 +21,8 @@ h1 {
     background-color: white;
     margin: 50px auto;
     position: relative;
-    height: 50vw;
-    width: 50vw;
-}
-
-.row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 33%;
-}
-
-.row>div{
-    height: 100%;
-    width: 33%;
-    text-align: center;
-    border: 2px solid greenyellow;
-}
-
-img {
-    width: 100%;
-    height: 100%;
+    height: 60vw;
+    width: 60vw;
 }
 
 .result {
@@ -145,10 +124,6 @@ img {
     width: 100%;
 }
 
-.leaderboard{
-    text-align: center;
-}
-
 .rung div{
     display: inline-block;
     height: 5vh;
@@ -165,6 +140,20 @@ img {
 }
 
 .active {
-    border: 5px dashed red !important;
-    box-sizing: border-box  !important;
+    background-color: rgb(135, 189, 236) !important;
+}
+
+#container{
+    max-width: 100%;
+    margin: auto;
+}
+
+.square{
+    background: grey;
+    width: 30%; /* this is the square width 30% x 3 = 90% */
+    margin: 1.66%; /* this is the remaining width in-between squares 1.66 x 6 = 40 */
+    float:left; /*slides the squares up and to the left. Stacking them properly.*/
+    padding-bottom: 30%; /* gives squares vertical height as a percentage of the width of the container. If you remove this the height of the elements will be 0, and  they disappear.*/
+    background-repeat: no-repeat;
+    background-size: cover;
 }

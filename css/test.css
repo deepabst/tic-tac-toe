@@ -1,0 +1,13 @@
+#container{
+    max-width: 60%;
+    margin: auto;
+}
+
+.square{
+    background: purple;
+    width: 30%;
+    margin: 1.66%;
+    float:left;
+    padding-bottom: 30%;
+}
+

@@ -1,6 +1,6 @@
 // UI code
 // click handler for squares
-$('.row>div').on('click', function(e){
+$('.square').on('click', function(e){
     // is the game is still going?
     if(game.gameOver === false){
         // which square was clicked?
@@ -21,6 +21,7 @@ $('.row>div').on('click', function(e){
         }
         updateScreen();
     }else{
+        // don't register clicks after the game is over
         console.log(`click after the game is over`);
     }
 }); 
@@ -32,10 +33,13 @@ const updateScreen = function(){
     for(let i = 0; i<game.board.length;i++){
         if(game.board[i]=== '1UP'){
             // player one owns the square
-            $(`#${i}>img[src='img/1.png']`).show();
+            $(`#${i}`).css({
+                backgroundImage: 'url(\'img/1.png\')',
+            });
         } else if (game.board[i]=== '2UP'){
-            // player two owns this square
-            $(`#${i}>img[src='img/2.png']`).show();
+            $(`#${i}`).css({
+                backgroundImage: 'url(\'img/2.png\')',
+            });
         }
         // remove the .free class from the square indicates it is taken
         if(game.board[i] !== null){
@@ -52,16 +56,11 @@ const updateScreen = function(){
 }      
 
 const showGameResult = function(winner){
-    let result;
+    let result = $(`#${winner}`);
     if(winner === 'draw'){
         $('#message').html(`Its a draw - press any key to play again`);
-        result = $('#draw');
-    } else if (winner === '1UP'){
+    } else{
         $('#message').html(`${winner} wins - press any key to play again`);
-        result = $('#1UPWin');
-    } else if (winner === '2UP'){
-        $('#message').html(`${winner} wins - press any key to play again`);
-        result = $('#2UPWin');
     }
     result.show().animate(
         {
@@ -70,7 +69,7 @@ const showGameResult = function(winner){
             top: '30%',
             left: '30%',
             position: 'absolute'
-        }, 2000
+        }, 500
     );
 
     if(winner !== 'draw'){
@@ -79,13 +78,13 @@ const showGameResult = function(winner){
     }
 };
 
-$('.row div').on('mouseenter', function(){
+$('.square').on('mouseenter', function(){
     if($(this).hasClass('free')){
         $(this).addClass('active');
     }
 });
 
-$('.row div').on('mouseleave', function(){
+$('.square').on('mouseleave', function(){
         $(this).removeClass('active');
 });
 
@@ -93,13 +92,8 @@ $('.row div').on('mouseleave', function(){
 $('body').on('keypress', function(){
     if(game.gameOver){
         let $resultMessage;
-        if(game.winner === 'draw'){
-            $resultMessage = $('#draw');
-        } else if(game.winner === '1UP'){
-            $resultMessage = $('#1UPWin');
-        } else if(game.winner === '2UP'){
-            $resultMessage = $('#2UPWin');
-        }
+        $resultMessage = $(`#${game.winner}`);
+        console.log('the result message is:',$resultMessage);
         $resultMessage.css({
             width: '10%',
             height: '10%',
@@ -127,9 +121,9 @@ const resetUI = function(){
     $('#2UPWinCounter').html(game.winCounter[1]);
     
     // add .free class to all squares
-    $('.row div').addClass('free');
+    $('.square').addClass('free');
     // hide images
-    $('.board img').hide();
+    $('.square').css('background-image', 'none');
     // hide strike out
     $('#strike').hide().removeClass();
     // set initial message
