@@ -1,20 +1,18 @@
-# Tic Tac Toe - Naughts and Crosses
+Noughts and Crosses
 ---
 *The classic game to pass the time. Take turn marking boxes until one player has 3 in a row or all boxes are marked. (e.g. a draw)*
 
-![screenshot of the game on iPhone](img/iphone.png)
-![screenshot of the game on iPhone](img/iphone1.png)
-![screenshot of the game on iPhone](img/iphone2.png)
+![screenshot of gameplay](img/screenshot1.png)
+![screenshot of gameplay](img/screenshot2.png)
 
 ## Features
-- 2 player turn based action!
+- 2 player turn-based action!
 - fun for the whole family (in groups of two)
-- hot seat mode - player 1 clicks then player 2
-- sunglasses at night dark mode (who needs light mode amirite?)
+- wins are tracked between visits to the site
+- sunglasses at night dark mode (who needs light mode amirite)
 
 ## Approach
-Separate logic for the UI and the game data.
-More spaghetti than you can shave a parmesan at.
+UI and the game logic are separate files. Wins are stored in browser localstorage.
 
 ## Technology
 - HTML - page structure
@@ -23,9 +21,6 @@ More spaghetti than you can shave a parmesan at.
 - jQuery - dom manipulation, animations
 - Canva - visual assets
 - Github - version control
-
-## Known Bugs
-The backgrounds of the winner/draw splash animations are a little dodgy.
 
 ## Link to game
 [Play Online Now](https://deepabst.github.io/tic-tac-toe/)
