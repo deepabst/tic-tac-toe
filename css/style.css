@@ -141,6 +141,7 @@ h1 {
 
 .active {
     background-color: rgb(135, 189, 236) !important;
+    cursor: pointer;
 }
 
 #container{
