@@ -37,6 +37,10 @@ const updateScreen = function(){
             // player two owns this square
             $(`#${i}>img[src='img/2.png']`).show();
         }
+        // remove the .free class from the square indicates it is taken
+        if(game.board[i] !== null){
+            $(`#${i}`).removeClass('free');
+        }
     }
     // show the result splash screen
     if(game.winner !== null){
@@ -75,6 +79,16 @@ const showGameResult = function(winner){
     }
 };
 
+$('.row div').on('mouseenter', function(){
+    if($(this).hasClass('free')){
+        $(this).addClass('active');
+    }
+});
+
+$('.row div').on('mouseleave', function(){
+        $(this).removeClass('active');
+});
+
 // press any key to start a new game
 $('body').on('keypress', function(){
     if(game.gameOver){
@@ -111,13 +125,17 @@ const resetUI = function(){
     // update wins on the leaderboard
     $('#1UPWinCounter').html(game.winCounter[0]);
     $('#2UPWinCounter').html(game.winCounter[1]);
-    // hide all images
+    
+    // add .free class to all squares
+    $('.row div').addClass('free');
+    // hide images
     $('.board img').hide();
-    // hide strike out div
+    // hide strike out
     $('#strike').hide().removeClass();
     // set initial message
     $('#message').html(`${game.getActivePlayer()} is first, choose a square`);
 
     game.newGame();
 }
+
 resetUI();

@@ -163,3 +163,8 @@ img {
     box-sizing: border-box;
     padding: 2px;
 }
+
+.active {
+    border: 5px dashed red !important;
+    box-sizing: border-box  !important;
+}
