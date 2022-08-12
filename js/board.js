@@ -10,19 +10,12 @@ $('.square').on('click', function(e){
             game.turnNumber++;            
             // update the game array
             game.board[square] = game.getActivePlayer();
-            console.log(`game square ${square} claimed by player ${game.board[square]}`)
             // check if current player won
             game.checkForWinner();
             // end turn - begin other player's turn
             game.setActivePlayer();
-        } else {
-            // square has been claimed do nothing, play on
-            console.log(`this square belongs to ${game.board[square]}`);
         }
         updateScreen();
-    }else{
-        // don't register clicks after the game is over
-        console.log(`click after the game is over`);
     }
 }); 
 

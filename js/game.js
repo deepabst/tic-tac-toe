@@ -10,7 +10,6 @@ const game = {
     strike: null,
     winCounter: [0,0],
     newGame: function(){
-        console.log(`resetting the game ...`);
          // reset data
          this.turnNumber = 0;
          this.winner = null;
