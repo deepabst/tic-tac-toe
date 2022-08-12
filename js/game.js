@@ -18,77 +18,6 @@ const game = {
          this.board = [null, null, null, null, null, null, null, null, null];
          this.strike = null;
      },
-     checkForWinner: function(){
-        let player = this.getActivePlayer();
-        // row one victory
-        if(this.board[0] === player 
-            && this.board[1] === player 
-            && this.board[2] === player){
-            game.winner = player;
-            game.strike = 'rowOneVictory'
-        }
-        // row two victory
-        else if(this.board[3] === player
-            && this.board[4] === player
-            && this.board[5] === player){
-            game.winner = player;
-            game.strike = 'rowTwoVictory'
-        }
-            // row three victory
-            else if(this.board[6] === player
-            && this.board[7] === player
-            && this.board[8] === player){
-            game.winner = player;
-            game.strike = 'rowThreeVictory'
-        }
-                // column one victory
-        else if(this.board[0] === player
-            && this.board[3] === player
-            && this.board[6] === player){
-            game.winner = player;
-            game.strike = 'colOneVictory'
-        }
-        // column two victory
-        else if(this.board[1] === player 
-            && this.board[4] === player
-            && this.board[7] === player){
-            game.winner = player;
-            game.strike = 'colTwoVictory'
-        }
-        // column three victory
-        else if(this.board[2] === player 
-            && this.board[5] === player 
-            && this.board[8] === player){
-            game.winner = player;
-            game.strike = 'colThreeVictory'
-        }
-        // backslash \ diagonal victory
-        else if(this.board[0] === player 
-            && this.board[4] === player 
-            && this.board[8] === player){
-            game.winner = player;
-            game.strike = 'backslashVictory'
-        }
-        // forwardslash / diagonal victory
-        else if(this.board[2] === player 
-            && this.board[4] === player 
-            && this.board[6] === player){
-            game.winner = player;
-            game.strike = 'forwardslashVictory'
-        } 
-        if(game.turnNumber === 9 && game.winner === null ){
-            game.winner = `draw`;
-        }
-        if(this.winner !== null){
-            this.gameOver = true;
-        }
-        // add +1 to the win total
-        if(this.winner !== null && this.winner !== 'draw'){
-            this.recordWin();
-        }
-
-        return this.winner;
-     },
      getActivePlayer: function(){
         let player; 
         if(game.is1UPturn){
@@ -113,5 +42,59 @@ const game = {
                 localStorage.setItem('winCounter', JSON.stringify(this.winCounter));
             }
         }
-     }
+     },
+     checkForWinner: function(){
+        // win not possible until the 5th turn
+        if(game.turnNumber > 4){
+
+            // create an object of winning combinations (arrays)
+            const winners = {
+                rowOneVictory: [0,1,2],
+                rowTwoVictory: [3,4,5],
+                rowThreeVictory: [6,7,8],
+                colOneVictory: [0,3,6],
+                colTwoVictory: [1,4,7],
+                colThreeVictory: [2,5,8],
+                backslashVictory: [0,4,8],
+                forwardslashVictory: [2,4,6]
+            };
+        
+            // check game board for each combo
+            for (const combo in winners){
+                let threeOfAKind = [];
+                for (let j = 0; j < 3; j++){
+                    // save the entries at each location
+                    threeOfAKind.push(game.board[winners[combo][j]]);
+                }
+                
+                // do the three of a kind match?
+                if(threeOfAKind[0] === threeOfAKind[1] 
+                    && threeOfAKind[0] === threeOfAKind[2]){
+                    // are they matching AND not empty?
+                    if(threeOfAKind[0] !== null){
+                        // game winning combo - current player wins!
+                        game.winner = this.getActivePlayer();
+                        game.strike = combo;
+                        break; // break out of loop
+                    }
+                }
+            }
+        
+            // did we run out of spaces? (i.e. 9 completed turns)
+            if(game.turnNumber === 9 && game.winner === null ){
+                game.winner = `draw`;
+            }
+        
+            // do we have a winner?
+            if(game.winner !== null){
+                game.gameOver = true;
+            }
+
+            // add +1 to the win total
+            if(this.winner !== null && this.winner !== 'draw'){
+                this.recordWin();
+            }
+        }
+        return this.winner;
+    }
 }

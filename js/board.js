@@ -93,7 +93,6 @@ $('body').on('keypress', function(){
     if(game.gameOver){
         let $resultMessage;
         $resultMessage = $(`#${game.winner}`);
-        console.log('the result message is:',$resultMessage);
         $resultMessage.css({
             width: '10%',
             height: '10%',
